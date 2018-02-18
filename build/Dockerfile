@@ -1,6 +1,6 @@
 FROM resin/rpi-raspbian:jessie
-
-MAINTAINER PAJ <paj@gaiterjones.com>
+# deprecated use label
+# MAINTAINER 82vmayer <>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -22,6 +22,11 @@ RUN set -x \
 	sqlite3 \
 	libjson-perl \
 	libdbd-sqlite3-perl \
+	libmodule-pluggable-perl \
+	bash \
+	cpanminus \
+	make \
+	dbus \
 	libtext-diff-perl \
 	libdevice-serialport-perl \
 	libio-socket-ssl-perl \
@@ -46,7 +51,9 @@ RUN set -x \
 	&& mkdir -p /var/log/supervisor \ 
 	&& cd /opt/fhem \	
 	&& rm fhem-5.8.deb \	
-	&& tar -cvf ../fhem.tar *
+	&& tar -cvf ../fhem.tar * \
+	&& cpan install Net::MQTT::Simple::SSL \
+	&& cpan install Net::MQTT::Constants
 
 COPY ./etc/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start-fhem.sh /usr/bin/start-fhem.sh
