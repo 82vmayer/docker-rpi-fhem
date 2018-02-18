@@ -4,7 +4,8 @@
 version: "3"
 
 services:
-    server:
+    fhem:
+        image: valmaye/fhem
         build: ./build/
         hostname: fhem
         domainname: home.com
